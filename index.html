@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+        <script src="airtable.browser.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+      <div class="header">
+        <div class="logo-container">
+          <img id="logo" src="assets/logo.png" alt="logo">
+        </div>
+
+        <div class="dropdown-container">
+          <select id="filters">
+            <option> show all </option>
+            <!-- load filters based on tags -->
+          </select>
+        </div>
+      </div>
+      <div class="header-images">
+        <img class="img_header" src="assets/007.jpg" alt="farm sketch">
+      </div>
+      <div id="places"></div> <!-- all content goes here -->
+      <div class="about-artist">
+        <h1>About the artist</h1>
+        <img src="assets/ron.jpg" alt="picture of the artist, Ron">
+      </div>
+      <div class="modal-container">
+        <div class="modal-BG"></div>
+        <div class="modal-FG">
+        </div>
+      </div>
+    </body>
+
+
+    <script>
+
+var Airtable = require('airtable');
+var base = new Airtable({apiKey: 'key4AQIgf9vVup0R4'}).base('app4lniVMign2oTBj');
+
+var filterArray = [];
+
+base('Table 1').select({
+    // Selecting the first 3 records in Grid view:
+    maxRecords: 100,
+    view: "Grid view"
+}).eachPage(function page(records, fetchNextPage) {
+    // This function (`page`) will get called for each page of records.
+
+    records.forEach(function(record) {
+      var tags = record.get('tags');
+        var splitTags = convertToArray(tags)
+        $('#places').append($('<div>').attr("id", record.get('thumb')[0].id)) //make a container with the item's ID, append all items to that container
+        var artName = record.get('Name');
+        var artNotes = record.get('Notes');
+        var thumbArtURL = record.get('thumb')[0].url;
+        var fullArtURL = record.get('large')[0].url;
+        var featured = record.get('featured');
+        var right = record.get('right');
+        var hide = record.get('hide');
+        var location = record.get('location');
+
+        $('#' + record.get('thumb')[0].id)
+          .addClass("art-container")
+          .append("<div class='hover-text-container'><span class='hover-text'>"+ artName +"</span></div>")
+          .data("foo", "test")
+          // .append($('<H1>').text(artName))
+          // .append($('<H3>').text(artNotes))
+          .append('<img class="thumb" src="' + thumbArtURL + '">')
+          .append($('<br>'))
+          .attr("large-url", fullArtURL)
+          .attr("art-name", artName)
+          .attr("art-notes", artNotes)
+          .attr("tags", tags)
+          .attr("art-location", location);
+
+          //add featured class if applicable
+          if (featured) {
+            $('#' + record.get('thumb')[0].id).addClass("featured");
+          }
+
+          //float featured right if applicable
+          if (right) {
+            $('#' + record.get('thumb')[0].id).addClass("right");
+          }
+
+          if (hide) {
+            // $('#' + record.get('thumb')[0].id).hide();
+            $('#' + record.get('thumb')[0].id).addClass("hidden");
+          }
+
+          var theValue = "";
+
+          for (var i = 0; i < splitTags.length; i++) {
+
+            $("#filters").append($('<option>').val(splitTags[i]).text(splitTags[i]))
+
+            var map = {};
+            $('select option').each(function () {
+                if (map[this.value]) {
+                    $(this).remove()
+                }
+                map[this.value] = true;
+            })
+
+
+          }
+
+          openLightBox();
+
+    });
+
+    // To fetch the next page of records, call `fetchNextPage`.
+    // If there are more records, `page` will get called again.
+    // If there are no more records, `done` will get called.
+    fetchNextPage();
+
+}, function done(err) {
+    if (err) { console.error(err); return; }
+});
+
+//convert cell of comma seperated tags to useablle array
+function convertToArray (tags) {
+  // console.log(tags);
+  var splitTags = tags.split(', ');
+  return splitTags;
+}
+
+function closelightBox() {
+  $(".modal-BG, .close-x").click(function() {
+    $(".modal-container").hide();
+  })
+}
+
+function openLightBox() {
+  $(".art-container").click(function() {
+
+    var artUrl = $(this).attr("large-url");
+    var artName = $(this).attr("art-name");
+    var artNotes = $(this).attr("art-notes");
+    var artLocation = $(this).attr("art-location");
+    var artTags = $(this).attr("tags");
+
+    $(".modal-container").show();
+    populateLightBox(artUrl, artName, artNotes, artLocation, artTags);
+  })
+}
+
+function populateLightBox(url, name, notes, location, tags) {
+  console.log("the tags are " + tags);
+  $(".modal-FG").empty();
+  // var url = $(this).attr("large-url");
+  // console.log("the url is " + url);
+
+  $(".modal-FG").append('<img class="large" src="' + url + '">')
+    .append($('<div class="close-x">x</div>'))
+    .append($('<div class="description"></div>'));
+    // .append($('<H1>').text(name))
+    // .append($('<H3>').text(notes))
+  $("div.description")
+    .append($('<H1>').text(name))
+    .append($('<H2>').text(location))
+    .append($('<H3>').text(tags))
+    .append($('<H4>').text(notes))
+
+  closelightBox();
+}
+
+closelightBox();
+
+$(document).ready(function(){
+    $("select#filters").change(function(){
+        var selectedfilter = $(this).children("option:selected").val();
+        console.log("filter is " + selectedfilter);
+        if (selectedfilter == "show all") {
+          $("div.art-container").show();
+          $(".hidden").hide();
+        } else {
+          $("div.art-container").hide();
+          $('div[tags="'+selectedfilter+'"]').each(function() {
+            $(this).show();
+          });
+        }
+
+
+    });
+});
+
+</script>
+</html>

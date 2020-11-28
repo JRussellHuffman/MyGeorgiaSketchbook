@@ -1,0 +1,160 @@
+body {
+  background-color: white;
+  margin:0;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-size: 1.7em;
+  margin-top: 0;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: .2em;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 0.9em;
+  font-style: italic;
+  font-weight: 100;
+  margin-top: 0;
+}
+
+h4 {
+  font-weight: normal;
+}
+
+img.img_header {
+  width:100%;
+}
+
+img.thumb {
+  width:100%;
+}
+
+img.large {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 75%;
+  float: left;
+}
+
+img#logo {
+  height:75px;
+}
+
+select#filters {
+  background: white;
+  width: 300px;
+  border: 0;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+  font-size: 1em;
+}
+
+.art-container {
+  position: relative;
+  float: left;
+  width: 25%;
+  margin-top: -4px;
+}
+
+.featured {
+  width:50%;
+}
+
+.right {
+  float:right;
+}
+
+.modal-container {
+
+}
+
+.modal-BG {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: .5;
+  top: 0;
+  z-index: 1;
+  left: 0;
+  cursor: pointer;
+}
+
+.modal-FG {
+    position: fixed;
+    background: white;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+    z-index: 2;
+}
+
+.modal-container {
+  display: none;
+}
+
+.hover-text-container {
+  display: none;
+  background: gray;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  opacity: .8;
+  cursor: pointer;
+}
+
+.art-container:hover .hover-text-container {
+  display: block;
+}
+
+.hover-text {
+  color: white;
+  display: inline-block;
+  text-align: center;
+  width: 80%;
+  margin-top: calc(50% - 18px);
+  font-size: 24px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.header {
+  /* background: #aaa; */
+  width: 100%;
+  height: 100px;
+}
+
+.logo-container {
+  float:left;
+}
+
+.dropdown-container {
+  float:right;
+  padding: 20px;
+}
+
+div.description {
+  padding: 20px;
+  float: left;
+}
+
+.close-x {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.hidden {
+  display: none;
+}
