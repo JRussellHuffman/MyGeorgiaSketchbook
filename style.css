@@ -9,6 +9,22 @@ h1 {
   margin-top: 0;
 }
 
+h1.hero-text {
+  font-weight: 100;
+  font-size: 7em;
+  /* padding: 200px 50px; */
+  /* padding: 50px; */
+  padding: 50px 50px 0 50px;
+  width: 600px;
+  position: relative;
+  z-index: 2;
+  margin-block-end: 0.2em;
+}
+
+.hero-subtext {
+  margin-left: 58px;
+}
+
 h2 {
   margin-top: 0;
   margin-bottom: .2em;
@@ -28,6 +44,12 @@ h4 {
 
 img.img_header {
   width:100%;
+  /* filter: brightness(90%) grayscale(30%); */
+  filter: opacity(0.5)
+  height: 600px;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
 }
 
 img.thumb {
@@ -54,17 +76,34 @@ select#filters {
   border-bottom: 1px solid black;
   border-radius: 0;
   font-size: 1em;
+  float:right;
+}
+
+div#places {
+  position: relative;
+  /* z-index: 10; */
+  margin:10px;
+  float: left;
+}
+
+.header-images {
+  height: 500px;
 }
 
 .art-container {
   position: relative;
   float: left;
-  width: 25%;
-  margin-top: -4px;
+  /* width: 25%; */
+  width: calc(25% - 20px);
+  padding: 10px;
+  /* margin-top: -4px; */
+  background: white;
 }
 
 .featured {
-  width:50%;
+  /* width:50%; */
+  width: calc(50% - 20px);
+  padding: 10px;
 }
 
 .right {
@@ -104,9 +143,11 @@ select#filters {
 .hover-text-container {
   display: none;
   background: gray;
-  height: 100%;
+  /* height: 100%; */
+  height: calc(100% - 24px);
   position: absolute;
-  width: 100%;
+  /* width: 100%; */
+  width: calc(100% - 20px);
   opacity: .8;
   cursor: pointer;
 }
@@ -137,8 +178,8 @@ select#filters {
 }
 
 .dropdown-container {
-  float:right;
-  padding: 20px;
+  width:100%;
+  height: 40px;
 }
 
 div.description {
@@ -157,4 +198,34 @@ div.description {
 
 .hidden {
   display: none;
+}
+
+div.about-artist {
+  position: relative;
+  float: left;
+}
+
+h2.about-title {
+  margin: 20px 0 0 20px;
+  font-weight: 400;
+}
+
+.artist-image-container {
+  /* width:50%; */
+  width: calc(50% - 30px);
+  padding:20px;
+  float: left;
+}
+
+img.artist-image {
+  width:100%;
+}
+
+.about-artist-container {
+  float: left;
+  width: calc(50% - 30px);
+}
+
+div.about-text {
+  padding:10px 0;
 }
