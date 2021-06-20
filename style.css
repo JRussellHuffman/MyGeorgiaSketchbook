@@ -136,6 +136,7 @@ div#places {
     left: 5%;
     top: 5%;
     z-index: 2;
+    overflow: scroll;
 }
 
 .modal-container {
@@ -229,6 +230,41 @@ img.artist-image {
   width: calc(50% - 30px);
 }
 
+img.tall {
+  /* max-width: 100%; */
+}
+
+img.wide {
+
+}
+
 div.about-text {
   padding:10px 0;
+}
+
+@media (max-width: 550px) {
+  div.header-images {
+    height: 200px;
+  }
+
+  h1.hero-text {
+    font-size: 3em;
+  }
+  div.description {
+    float:left;
+  }
+  img.large {
+    max-width: 100%;
+  }
+  div.art-container {
+    width: calc(50% - 20px);
+  }
+  div.about-artist-container {
+    padding:20px;
+    width: calc(100% - 40px);
+  }
+  div.artist-image-container {
+    padding:20px;
+    width: calc(100% - 40px);
+  }
 }

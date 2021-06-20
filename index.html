@@ -6,6 +6,7 @@
         <script src="airtable.browser.js"></script>
         <script type="text/javascript" src="script.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com"> -->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -73,6 +74,7 @@ base('Table 1').select({
         var right = record.get('right');
         var hide = record.get('hide');
         var location = record.get('location');
+        var tall = record.get('tall');
 
         $('#' + record.get('thumb')[0].id)
           .addClass("art-container")
@@ -86,7 +88,8 @@ base('Table 1').select({
           .attr("art-name", artName)
           .attr("art-notes", artNotes)
           .attr("tags", tags)
-          .attr("art-location", location);
+          .attr("art-location", location)
+          .attr("art-tall", tall);
 
           //add featured class if applicable
           if (featured) {
@@ -101,6 +104,10 @@ base('Table 1').select({
           if (hide) {
             // $('#' + record.get('thumb')[0].id).hide();
             $('#' + record.get('thumb')[0].id).addClass("hidden");
+          }
+
+          if (tall) {
+            $('#' + record.get('thumb')[0].id).addClass("tall");
           }
 
           var theValue = "";
@@ -154,19 +161,24 @@ function openLightBox() {
     var artNotes = $(this).attr("art-notes");
     var artLocation = $(this).attr("art-location");
     var artTags = $(this).attr("tags");
+    if ($(this).hasClass("tall")) {
+      var artOrientation = "tall";
+    } else {
+      var artOrientation = "wide";
+    }
 
     $(".modal-container").show();
-    populateLightBox(artUrl, artName, artNotes, artLocation, artTags);
+    populateLightBox(artUrl, artName, artNotes, artLocation, artTags, artOrientation);
   })
 }
 
-function populateLightBox(url, name, notes, location, tags) {
-  console.log("the tags are " + tags);
+function populateLightBox(url, name, notes, location, tags, orientation) {
+  console.log("the orientation is " + orientation);
   $(".modal-FG").empty();
   // var url = $(this).attr("large-url");
   // console.log("the url is " + url);
 
-  $(".modal-FG").append('<img class="large" src="' + url + '">')
+  $(".modal-FG").append('<img class="large '+orientation+'" src="' + url + '">')
     .append($('<div class="close-x">x</div>'))
     .append($('<div class="description"></div>'));
     // .append($('<H1>').text(name))
